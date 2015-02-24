@@ -6,43 +6,41 @@
         initialize: function() {
             console.log("initialized");
             this.collection = new Parse.TodoActualList();
-            this.view1 = new Parse.TodoView({ //list
+            this.view = new Parse.TodoView({ //list
                 collection: this.collection
             });
-            this.authview = new Parse.AuthView();
-
-
+            this.authview = new Parse.AuthView({});
             // this.view2 = new Parse.TodoViewDetail({});//details, need to create this page
             this.isLoggedIn();
             Parse.history.start();
         },
         routes: {
             "login": "login",
-            "*default": "login",
+            "*default": "home",
             "details/:item": "showDetail"
         },
         isLoggedIn: function() {
             this.user = Parse.User.current();
             if (!this.user) {
-                this.navigate("login", {
-                    trigger: true
-                }); //this is a simple check
+                this.navigate("login", {trigger: true}); //this is a simple check
                 return false;
             }
             return true;
         },
-        login: function() {
-            this.authview.render();
-        },
         home: function() {
-            if (!this.isLoggedIn()) return; //return is just exciting the function if they are not logged in
+            if (!this.isLoggedIn())
+            return; //return is just exciting the function if they are not logged in
+
             var query = new Parse.Query(Parse.TaskModel);
             query.equalTo("user", this.user);
             // query.startsWith("description: h");
             this.collection.query = query;
             this.collection.fetch(); // matt has this on his, why? do I need this? This just finds all the tasks return to parse and creates models
-            this.view1.render();
+            this.view.render();
             // this.view2.render(); //Temporary: we'll move the detail view later
+        },
+        login: function() {
+            this.authview.render();
         },
         showDetail: function(item) {
             // this.view2.render();
@@ -53,9 +51,9 @@
         el: ".container",
         view: "PAppQ", //--points to parseToDoapp.html
         events: {
-            "submit form": "addTask",
-            "change input [name= 'urgent']": "toggleUrgent", //if input is urgent, then toggleUrgent function
-            "change input [name= 'isDone']": "toggleIsDone",
+            "submit .tasks": "addTask",
+            "change input[name= 'urgent']": "toggleUrgent", //if input is urgent, then toggleUrgent function
+            "change input[name= 'isDone']": "toggleIsDone",
             "keyup .description": "setDescription"
         },
         addTask: function(event) {
@@ -67,7 +65,7 @@
             }
             this.collection.create(data, { //does an .add AND creates a new model and saves it
                 validate: true
-            });
+            })
             console.log("Yay!");
             // debugger;
         },
@@ -103,14 +101,14 @@
         setDescription: function(event) {
             var m = this.getModelAssociatedWithEvent(event);
             if (m) {
-                m.set('description', event.taget.innerText);
+                m.set('description', event.target.innerText);
                 m.save();
             }
         }
     })
 
     Parse.AuthView = Parse.TemplateView.extend({
-            el: ".container",
+            el: ".container1",
             view: "authview",
             events: {
                 "submit .login": "login",
@@ -124,7 +122,7 @@
                 }
                 var result = Parse.User.logIn(data.username, data.password);
                 result.then(function() {
-                    window.location.hash = "#view1"
+                    window.location.hash = "#view"
                 })
                 result.fail(function(error) {
                     alert(error.message);
@@ -134,8 +132,8 @@
                 event.preventDefault();
                 var data = {
                     username: this.el.querySelector(".register input[name= 'email']").value,
-                    password1: this.el.querySelector(".regiser input[name= 'password1]").value,
-                    password2: this.el.querySelector(".register input[name='password2]").value
+                    password1: this.el.querySelector(".regiser input[name= 'password1']").value,
+                    password2: this.el.querySelector(".register input[name='password2']").value
                 }
                 if (data.password1 !== data.password2) {
                     alert("Passwords must match");
@@ -148,14 +146,14 @@
 
                 var result = user.signUp()
                 result.then(function(user) {
-                    window.location.hash = "#view1"
+                    window.location.hash = "#view"
                     alert("Welcome home, " + user.get("username"));
                 })
                 result.fail(function(error) {
                     alert(error.message);
                 })
             }
-    })
+    });
     Parse.TaskModel = Parse.Object.extend({
         className: "description",
         defaults: {
@@ -170,7 +168,7 @@
                 this.save(); //save is backbone; sends the info back online to parse.com, to specific id is given to object, automatically saves
             })
         }
-    })
+    });
     Parse.TodoActualList = Parse.Collection.extend({
         model: Parse.TaskModel,
         comparator: function(a, b) { //this is to alphabetize the list

@@ -1,9 +1,10 @@
-;(function(){
+;
+(function() {
 
     "use strict";
 
-    var x =  (typeof Parse !== "undefined") && ("Parse") || (typeof Backbone !== "undefined") && ("Backbone");
-    if(!x) return;
+    var x = (typeof Parse !== "undefined") && ("Parse") || (typeof Backbone !== "undefined") && ("Backbone");
+    if (!x) return;
 
     window[x].TemplateView = window[x].View.extend({
         cache: {},
@@ -20,7 +21,8 @@
             return x;
         },
         loadTemplate: function(name) {
-            return this.stream('./templates/' + name + '.html');
+            return this.stream('./templates/' + name + '.html')
+
         },
         initialize: function(options) {
             this.options = options;
@@ -34,6 +36,7 @@
                 var d = self.model || self.collection;
                 self.el.innerHTML = fn({
                     data: d
+
                 });
             })
         }
