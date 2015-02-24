@@ -78,3 +78,121 @@ img {max-width:100%;}
 body {
     transition: opacity .25s ease;
 }
+.container1 {
+    max-width: 60ch;
+    background-color: #efefef;
+    border: 2px solid #444;
+    // margin: 0 auto;
+    form {
+        padding: 1em;
+        position: relative;
+        div {
+            position: relative;
+            margin-right: 4em;
+            input {
+                width: 100%;
+                padding: 1em;
+                border: 1px solid #444;
+            }
+        }
+        button {
+            display: inline-block;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 3rem;
+            height: 3.2rem;
+            background-color: #444;
+            color: white;
+            font-size: 2em;
+            line-height: 1em;
+            border: none;
+        }
+    }
+    ul {
+        padding-left: 1em;
+        list-style: none;
+        li {
+            border-bottom: 1px solid #444;
+            position: relative;
+            span {
+                display: inline-block;
+                padding: 1em 3em 1em 0;
+                width: 100%;
+            }
+            &:last-child {
+                border-bottom-width: 0px;
+            }
+            input[type="checkbox"] {
+                position: absolute;
+                top: 1em;
+                right: 1em;
+            }
+        }
+    }
+}
+.container2 {
+    max-width: 40ch;
+    background-color: #efefef;
+    border: 2px solid #444;
+    // margin: 0 auto;
+    position: absolute;
+    top: 0;
+    margin-left: 60ch;
+    height: 100%;
+    padding: 1em;
+    textarea {
+        width: 100%;
+    }
+    form {
+        padding: 1em;
+        position: relative;
+        div {
+            position: relative;
+            margin-right: 4em;
+            input {
+                width: 100%;
+                padding: 1em;
+                border: 1px solid #444;
+            }
+        }
+        button {
+            display: inline-block;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 3rem;
+            height: 3.2rem;
+            background-color: #444;
+            color: white;
+            font-size: 2em;
+            line-height: 1em;
+            border: none;
+        }
+    }
+    ul {
+        padding-left: 1em;
+        list-style: none;
+        li {
+            border-bottom: 1px solid #444;
+            position: relative;
+            span {
+                display: inline-block;
+                padding: 1em 3em 1em 0;
+                width: 100%;
+            }
+            &:last-child {
+                border-bottom-width: 0px;
+            }
+            input[type="checkbox"] {
+                position: absolute;
+                top: 1em;
+                right: 1em;
+            }
+        }
+    }
+}
+.container {
+    margin: 0 auto;
+    position: relative;
+}
